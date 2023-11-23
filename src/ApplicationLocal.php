@@ -1,10 +1,10 @@
 <?php
-require_once( dirname(__DIR__) . "/vendor/autoload.php" );
+require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 //autoload
 spl_autoload_register(function ($class) {
     $file = __DIR__ . "/" . str_replace("\\", "/", str_replace("Bot\\", "", $class)) . ".php";
-        if (file_exists($file)) {
+    if (file_exists($file)) {
         require $file;
     }
 });
@@ -14,6 +14,15 @@ define("FOLDER_TMP", dirname(__DIR__) . "/tmp");
 define("FOLDER_LOGS", dirname(__DIR__) . "/logs");
 define("FOLDER_ASSETS", dirname(__DIR__) . "/assets");
 define("FOLDER_SQL", dirname(__DIR__) . "/assets/SQL");
+
+//Check if folders exists
+if (!is_dir(FOLDER_ASSETS)) {
+    mkdir(FOLDER_ASSETS);
+}
+if (!is_dir(FOLDER_SQL)) {
+    mkdir(FOLDER_SQL);
+}
+
 //set folder logs
 Bot\IO\Logger::setFolderLog(FOLDER_LOGS);
 //load file .env
@@ -22,9 +31,9 @@ $env = parse_ini_file(".env.local");
 $fileCookieJar = FOLDER_TMP."/.cookies";
 if (fileperms($fileCookieJar) !== 0600) {
     if (!chmod($fileCookieJar, 0600)) {
-      Bot\IO\Logger::notice("Unable to change file Cookie Jar permissions.");
+        Bot\IO\Logger::notice("Unable to change file Cookie Jar permissions.");
     }
-} 
+}
 $client = new GuzzleHttp\Client(["cookies" => new GuzzleHttp\Cookie\FileCookieJar($fileCookieJar)]);
 $auth = new \Addwiki\Mediawiki\Api\Client\Auth\UserAndPassword($env["userbot"], $env["passwordbot"]);
 $api = new \Addwiki\Mediawiki\Api\Client\Action\ActionApi($env["apibot"], $auth, $client);

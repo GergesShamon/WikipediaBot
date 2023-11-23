@@ -14,6 +14,14 @@ define("FOLDER_TMP", dirname(__DIR__) . "/tmp");
 define("FOLDER_LOGS", dirname(__DIR__) . "/logs");
 define("FOLDER_ASSETS", dirname(__DIR__) . "/assets");
 define("FOLDER_SQL", dirname(__DIR__) . "/assets/SQL");
+//Check if folders exists
+if (!is_dir(FOLDER_ASSETS)) {
+    mkdir(FOLDER_ASSETS);
+}
+if (!is_dir(FOLDER_SQL)) {
+    mkdir(FOLDER_SQL);
+}
+
 //set folder logs
 Bot\IO\Logger::setFolderLog(FOLDER_LOGS);
 //load file .env
