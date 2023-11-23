@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
-require __DIR__."/ApplicationLocal.php";
 $name = $argv[1];
 $className = "Bot\\Tasks\\${name}";
 if (class_exists($className)) {
+        require __DIR__."/ApplicationLocal.php";
         $Task = new $className($api,  $services, $mysqli);
         $Task->RUN();
 } else {

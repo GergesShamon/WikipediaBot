@@ -29,9 +29,11 @@ Bot\IO\Logger::setFolderLog(FOLDER_LOGS);
 $env = parse_ini_file(".env.local");
 // Create an authenticated API and services
 $fileCookieJar = FOLDER_TMP."/.cookies";
-if (fileperms($fileCookieJar) !== 0600) {
-    if (!chmod($fileCookieJar, 0600)) {
-        Bot\IO\Logger::notice("Unable to change file Cookie Jar permissions.");
+if (file_exists($fileCookieJar)) {
+    if (fileperms($fileCookieJar) !== 0600) {
+        if (!chmod($fileCookieJar, 0600)) {
+            Bot\IO\Logger::notice("Unable to change file Cookie Jar permissions.");
+        }
     }
 }
 $client = new GuzzleHttp\Client(["cookies" => new GuzzleHttp\Cookie\FileCookieJar($fileCookieJar)]);

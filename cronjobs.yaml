@@ -1,0 +1,5 @@
+- name: reduce.images
+  schedule: "0 0 * * 0"
+  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask ReduceImages
+  image: php8.2
+  emails: onfailure
