@@ -3,3 +3,5 @@ logs/*
 tmp/*
 src/.env
 src/.env.local
+src/RunTaskLocal
+src/ApplicationLocal.php
