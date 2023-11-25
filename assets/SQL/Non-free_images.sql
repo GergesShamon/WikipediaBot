@@ -11,6 +11,7 @@ WHERE img_width > 400
 AND img_height > 400
 AND img_name NOT LIKE "%.svg"
 AND img_name NOT LIKE "%.pdf"
+AND img_name NOT LIKE "%.tif"
 AND p.page_is_redirect = 0
 AND p.page_namespace = 6
 AND cl_to = "جميع_الملفات_غير_الحرة";
