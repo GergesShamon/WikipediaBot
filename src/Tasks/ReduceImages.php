@@ -26,7 +26,7 @@ class ReduceImages extends Task
         $fileUploader = new \Bot\Service\FileUploader($this->api);
         if ($fileUploader->upload(
             $filename,
-            fopen(FOLDER_TMP."/".urldecode($filename),"r"),
+            fopen(FOLDER_TMP."/".$filename,"r"),
             "",
             "بوت: تصغير حجم الصور غير حرة",
             "preferences",
