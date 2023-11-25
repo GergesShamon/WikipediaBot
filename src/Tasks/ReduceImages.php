@@ -49,9 +49,6 @@ class ReduceImages extends Task
             $images = $this->getImages();
             $i = 0;
             foreach ($images as $image) {
-                if ($i == 5) {
-                    break;
-                }
                 $this->ReduceImage($image["img_name"], $image["img_width"], $image["img_height"]);
                 $this->removeFile($image["img_name"]);
                 $i++;
