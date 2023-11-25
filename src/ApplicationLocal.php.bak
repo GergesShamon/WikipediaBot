@@ -33,8 +33,9 @@ if (!is_dir(FOLDER_LOGS)) {
 //set folder logs
 Bot\IO\Logger::setFolderLog(FOLDER_LOGS);
 //load file .env
-$env = parse_ini_file(".env.local");
+$env = parse_ini_file(".env");
 // Create an authenticated API and services
+
 $auth = new \Addwiki\Mediawiki\Api\Client\Auth\UserAndPassword($env["userbot"], $env["passwordbot"]);
 $api = new \Addwiki\Mediawiki\Api\Client\Action\ActionApi($env["apibot"], $auth);
 $services = new \Addwiki\Mediawiki\Api\MediawikiFactory($api);
