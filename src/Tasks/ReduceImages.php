@@ -1,9 +1,11 @@
 <?php
 namespace Bot\Tasks;
 
+use Addwiki\Mediawiki\Api\Client\Action\Exception\UsageException;
 use Bot\IO\Util;
 use Bot\IO\ReduceImage;
 use Bot\IO\Logger;
+use Exception;
 class ReduceImages extends Task
 {
 
@@ -14,7 +16,6 @@ class ReduceImages extends Task
     public function ReduceImage(string $filename, int $width, int $height) : void {
         Logger::info("The bot reduces the file ${filename} size.");
         $ImageInfo = Util::getImageInfo($this->api, $filename, "url");
-        print_r($ImageInfo);
         $reducer = new ReduceImage($ImageInfo["url"]);
         $reducer->reduce(400, $filename);
         if ($this->services->newFileUploader()->upload(
@@ -55,10 +56,11 @@ class ReduceImages extends Task
                 $this->removeFile($image["img_name"]);
                 $i++;
             }
+            Logger::info("Task ReduceImages succeeded to execute.");
         } catch (Exception $error) {
             Logger::fatal("Task ReduceImages failed to execute.", [$error->getMessage()]);
-        } finally {
-            Logger::info("Task ReduceImages succeeded to execute.");
+        } catch (UsageException $error) {
+            Logger::fatal("Task ReduceImages failed to execute.", $error->getApiResult());
         }
     }
 }

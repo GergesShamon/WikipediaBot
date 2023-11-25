@@ -43,19 +43,19 @@ class ReduceImage
         
         switch ($mime) {
             case "image/jpeg":
-                imagejpeg($resizedImage, FOLDER_TMP."/${filename}", 100);
+                imagejpeg($resizedImage, FOLDER_TMP."/${filename}");
                 break;
             case "image/png":
-                imagepng($resizedImage, FOLDER_TMP."/${filename}", 100);
+                imagepng($resizedImage, FOLDER_TMP."/${filename}");
                 break;
             case "image/gif":
-                imagegif($resizedImage, FOLDER_TMP."/${filename}", 100);
+                imagegif($resizedImage, FOLDER_TMP."/${filename}");
                 break;
             case "image/bmp":
-                imagewbmp($resizedImage, FOLDER_TMP."/${filename}", 100);
+                imagewbmp($resizedImage, FOLDER_TMP."/${filename}");
                 break;
             case "image/webp":
-                imagewebp($resizedImage, FOLDER_TMP."/${filename}", 100);
+                imagewebp($resizedImage, FOLDER_TMP."/${filename}");
                 break;
         }
         // Clean up resources
