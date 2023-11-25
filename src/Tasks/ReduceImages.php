@@ -22,7 +22,7 @@ class ReduceImages extends Task
             $filename,
             FOLDER_TMP."/".urldecode($filename),
             "",
-            "بوت: تصغير حجم الصور غير حرة (تجربة)",
+            "بوت: تصغير حجم الصور غير حرة",
             "preferences",
             true
         )) {
