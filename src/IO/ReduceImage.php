@@ -3,20 +3,14 @@ namespace Bot\IO;
 
 class ReduceImage
 {
-    private $imageUrl;
-    public function __construct($imageUrl) {
-        $this->imageUrl = $imageUrl;
+    private $imageData;
+    public function __construct($imageData) {
+        $this->imageData = $imageData;
     }
 
-    public function reduce(int $maxDimension = 400, string $filename) : void {
-        // Get the image data
-        $imageData = file_get_contents($this->imageUrl, false, stream_context_create([
-            'http' => [
-                'header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-            ],
-        ]));
+    public function reduce(int $maxDimension = 400, string $filename) {
         // Create a GD image from the data
-        $originalImage = imagecreatefromstring($imageData);
+        $originalImage = imagecreatefromstring($this->imageData);
 
         // Get the original dimensions
         $originalWidth = imagesx($originalImage);
@@ -38,7 +32,7 @@ class ReduceImage
         imagecopyresampled($resizedImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
 
         // Output the resized image directly to the browser
-        $originalImageInfo = getimagesizefromstring($imageData);
+        $originalImageInfo = getimagesizefromstring($this->imageData);
         $mime = $originalImageInfo["mime"];
         
         switch ($mime) {

@@ -16,11 +16,17 @@ class ReduceImages extends Task
     public function ReduceImage(string $filename, int $width, int $height) : void {
         Logger::info("The bot reduces the file ${filename} size.");
         $ImageInfo = Util::getImageInfo($this->api, $filename, "url");
-        $reducer = new ReduceImage($ImageInfo["url"]);
+        $imageData = file_get_contents($ImageInfo["url"], false, stream_context_create([
+            'http' => [
+                'header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+            ],
+        ]));
+        $reducer = new ReduceImage($imageData);
         $reducer->reduce(400, $filename);
-        if ($this->services->newFileUploader()->upload(
+        $fileUploader = new \Bot\Service\FileUploader($this->api);
+        if ($fileUploader->upload(
             $filename,
-            FOLDER_TMP."/".urldecode($filename),
+            fopen(FOLDER_TMP."/".urldecode($filename),"r"),
             "",
             "بوت: تصغير حجم الصور غير حرة",
             "preferences",
