@@ -85,6 +85,8 @@ class ReduceImages extends Task
             Logger::fatal("Task ReduceImages failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
             Logger::fatal("Task ReduceImages failed to execute.", $error->getApiResult());
+        } catch (Warning $warning) {
+            Logger::warning("Task ReduceImages issued a warning.", [$warning->getMessage()]);
         }
     }
 }
