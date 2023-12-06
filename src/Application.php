@@ -34,11 +34,16 @@ if (!is_dir(FOLDER_LOGS)) {
 Bot\IO\Logger::setFolderLog(FOLDER_LOGS);
 //load file .env
 $env = parse_ini_file(".env");
-// Create an authenticated API and services
 
-$auth = new \Addwiki\Mediawiki\Api\Client\Auth\UserAndPassword($env["userbot"], $env["passwordbot"]);
-$api = new \Addwiki\Mediawiki\Api\Client\Action\ActionApi($env["apibot"], $auth);
-$services = new \Addwiki\Mediawiki\Api\MediawikiFactory($api);
+$cookieFile = FOLDER_TMP . "/.cookies";
+
+$client = new \GuzzleHttp\Client([
+    "cookies" => new \GuzzleHttp\Cookie\FileCookieJar($cookieFile, true)
+]);
+
+$auth = new \WikiConnect\MediawikiApi\Client\Auth\UserAndPassword($env["userbot"], $env["passwordbot"]);
+$api = new \WikiConnect\MediawikiApi\Client\Action\ActionApi($env["apibot"], $auth, $client);
+$services = new \WikiConnect\MediawikiApi\MediawikiFactory($api);
 // Create an authenticated mysqli
 $mysqli = new mysqli(
     $env["hostdb"],
@@ -46,3 +51,7 @@ $mysqli = new mysqli(
     $env["passworddb"],
     $env["namedb"]
 );
+
+if (file_exists($cookieFile)) {
+    chmod($cookieFile, 0600);
+}

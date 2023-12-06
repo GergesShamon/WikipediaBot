@@ -1,8 +1,8 @@
 <?php
 namespace Bot\IO;
 
-use Addwiki\Mediawiki\Api\Client\Action\ActionApi;
-use Addwiki\Mediawiki\Api\Client\Action\Request\ActionRequest;
+use WikiConnect\MediawikiApi\Client\Action\ActionApi;
+use WikiConnect\MediawikiApi\Client\Action\Request\ActionRequest;
 
 class Util
 {

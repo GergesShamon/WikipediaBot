@@ -1,11 +1,13 @@
 <?php
 namespace Bot\Tasks;
 
-use Addwiki\Mediawiki\Api\Client\Action\Exception\UsageException;
+use WikiConnect\MediawikiApi\Client\Action\Exception\UsageException;
 use Bot\IO\Util;
 use Bot\IO\ReduceImage;
 use Bot\IO\Logger;
 use Exception;
+use ImagickException;
+
 class ReduceImages extends Task
 {
 
@@ -83,10 +85,10 @@ class ReduceImages extends Task
             Logger::info("Task ReduceImages succeeded to execute.");
         } catch (Exception $error) {
             Logger::fatal("Task ReduceImages failed to execute.", [$error->getMessage()]);
+        } catch (ImagickException $error) {
+            Logger::fatal("Task ReduceImages failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
             Logger::fatal("Task ReduceImages failed to execute.", $error->getApiResult());
-        } catch (Warning $warning) {
-            Logger::warning("Task ReduceImages issued a warning.", [$warning->getMessage()]);
         }
     }
 }

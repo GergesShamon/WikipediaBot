@@ -3,8 +3,8 @@
 namespace Bot\Tasks;
 
 use mysqli;
-use Addwiki\Mediawiki\Api\MediawikiFactory;
-use Addwiki\Mediawiki\Api\Client\Action\ActionApi;
+use WikiConnect\MediawikiApi\MediawikiFactory;
+use WikiConnect\MediawikiApi\Client\Action\ActionApi;
 use Bot\IO\QueryDB;
 
 abstract class Task {

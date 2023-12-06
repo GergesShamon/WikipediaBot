@@ -1,22 +1,36 @@
 <?php
 namespace Bot\IO;
 
+use Imagick;
+
 class ReduceImage
 {
-    private $imageData;
-    public function __construct($imageData) {
-        $this->imageData = $imageData;
+    private Imagick $image;
+
+    public function __construct($imageData)
+    {
+        $this->image = new Imagick();
+        $this->image->readImageBlob($imageData);
     }
 
-    public function reduce(int $maxDimension = 400, string $filename) {
-        // Create a GD image from the data
-        $originalImage = imagecreatefromstring($this->imageData);
+    public function reduce(int $maxDimension = 400, string $filename)
+    {
+        $originalWidth = $this->image->getImageWidth();
+        $originalHeight = $this->image->getImageHeight();
 
-        // Get the original dimensions
-        $originalWidth = imagesx($originalImage);
-        $originalHeight = imagesy($originalImage);
+        list($newWidth, $newHeight) = $this->calculateNewDimensions($originalWidth, $originalHeight, $maxDimension);
 
-        // Calculate the new dimensions while maintaining the aspect ratio
+        $this->image->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1);
+
+        // Save the modified image
+        $this->image->writeImage(FOLDER_TMP . "/{$filename}");
+
+        // Destroy the Imagick object
+        $this->image->destroy();
+    }
+
+    private function calculateNewDimensions($originalWidth, $originalHeight, $maxDimension)
+    {
         if ($originalWidth > $originalHeight) {
             $newWidth = $maxDimension;
             $newHeight = $originalHeight * ($maxDimension / $originalWidth);
@@ -25,44 +39,7 @@ class ReduceImage
             $newWidth = $originalWidth * ($maxDimension / $originalHeight);
         }
 
-        // Create a new blank GD image with the calculated dimensions and alpha channel
-        $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
-
-        // Enable alpha blending
-        imagesavealpha($resizedImage, true);
-
-        // Fill the background with a transparent color
-        $transparent = imagecolorallocatealpha($resizedImage, 0, 0, 0, 127);
-        imagefill($resizedImage, 0, 0, $transparent);
-
-        // Resize the original image to the new dimensions
-        imagecopyresampled($resizedImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
-
-
-        // Output the resized image directly to the browser
-        $originalImageInfo = getimagesizefromstring($this->imageData);
-        $mime = $originalImageInfo["mime"];
-
-        switch ($mime) {
-            case "image/jpeg":
-                imagejpeg($resizedImage, FOLDER_TMP."/${filename}");
-                break;
-            case "image/png":
-                imagepng($resizedImage, FOLDER_TMP."/${filename}");
-                break;
-            case "image/gif":
-                imagegif($resizedImage, FOLDER_TMP."/${filename}");
-                break;
-            case "image/bmp":
-                imagewbmp($resizedImage, FOLDER_TMP."/${filename}");
-                break;
-            case "image/webp":
-                imagewebp($resizedImage, FOLDER_TMP."/${filename}");
-                break;
-        }
-        // Clean up resources
-        imagedestroy($originalImage);
-        imagedestroy($resizedImage);
+        return [$newWidth, $newHeight];
     }
 }
 ?>

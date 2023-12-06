@@ -1,8 +1,7 @@
 <?php
 namespace Bot\IO;
 
-class Logger
-{
+class Logger {
 
     /**
      * $log_file - path and log file name

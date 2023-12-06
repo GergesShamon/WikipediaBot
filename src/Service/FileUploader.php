@@ -2,8 +2,8 @@
 
 namespace Bot\Service;
 
-use Addwiki\Mediawiki\Api\Client\Action\Request\ActionRequest;
-use Addwiki\Mediawiki\Api\Service\Service;
+use WikiConnect\MediawikiApi\Client\Action\Request\ActionRequest;
+use WikiConnect\MediawikiApi\Service\Service;
 use Exception;
 
 /**
