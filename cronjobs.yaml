@@ -3,3 +3,13 @@
   command: php /data/project/gergesbot2/WikipediaBot/src/RunTask ReduceImages
   image: php8.2
   emails: onfailure
+- name: featured.content
+  schedule: "0 2 * * *"
+  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask FeaturedContent
+  image: php8.2
+  emails: onfailure
+- name: peer.review.archive
+  schedule: "0 */5 * * *"
+  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask PeerReviewArchive
+  image: php8.2
+  emails: onfailure

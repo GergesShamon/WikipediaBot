@@ -53,6 +53,11 @@ class Util
     );
     return $months[strftime("%B")] . " " . strftime("%Y");
   }
-
+    public static function PregReplace($Text ,$Array = array()): string {
+        foreach ($Array as $Row) {
+          $Text = preg_replace($Row[0] ,$Row[1], $Text);
+        }
+    return $Text;
+    }
 
 }
