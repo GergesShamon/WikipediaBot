@@ -156,12 +156,10 @@ class FeaturedContent extends Task
         $revision = new Revision(new Content($TextPage),$VotePage->getPageIdentifier());
         $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: إنشاء."));
     }
-    private function getPages() {
-        return CoreSystem::QueryDB(
-            CoreSystem::ReadFile(__DIR__ . "/../sql/GetPagesFromCategories.sql", [
-                "Name" => "تتبع_صفحات_مراجعة_مقبولة",
-            ]),
-        );
+    private function getPages(): array {
+        return $this->query->getArray(Util::ReadFile(FOLDER_SQL . "/GetPagesFromCategories.sql", [
+            "Name" => "تتبع_صفحات_مراجعة_مقبولة",
+        ]));
     }
     private function newCommunityMssages($name, $tag): void {
         $page = $this->getPage("ويكيبيديا:رسائل للمجتمع");
@@ -272,7 +270,7 @@ class FeaturedContent extends Task
             }
         }
     }
-    private function RUN(): void {
+    public function RUN(): void {
         try {
             $this->init();
             Logger::info("Task FeaturedContent succeeded to execute.");
