@@ -262,10 +262,10 @@ class FeaturedContent extends Task
                 $this->ReviewPageFormat($NamePage);
                 $this->AddTagVote($NamePage, $Tag);
                 $this->AddToPageVotes($NamePage, $Tag);
-                $Archive = new PeerReviewArchive($this->API);
+                $Archive = new PeerReviewArchive($this->api, $this->services, $this->query);
                 $Archive->Archive($NamePage);
                 } else {
-                echo "A page ${NamePage} that is not older than two days.\n";
+                    Logger::info("A page ${NamePage} that is not older than two days.");
                 }
             }
         }

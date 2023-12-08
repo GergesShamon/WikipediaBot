@@ -130,7 +130,7 @@ class PeerReviewArchive extends Task
         
     }
     public function RUN(): void {
-        $pages1 = array_merge($this->getPagesAcceptable(), $this->getPagesRejected());
+        $pages1 = $this->getPagesRejected();
         $pages2 = $this->getPagesCurrent();
         $pages = array_intersect($pages1, $pages2);
         foreach ($pages as $page) {
