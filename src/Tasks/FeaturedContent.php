@@ -8,7 +8,6 @@ use WikiConnect\MediawikiApi\DataModel\Content;
 use WikiConnect\MediawikiApi\DataModel\Revision;
 use WikiConnect\MediawikiApi\DataModel\EditInfo;
 use Bot\IO\Util;
-use Bot\IO\Logger;
 
 class FeaturedContent extends Task
 {
@@ -17,7 +16,7 @@ class FeaturedContent extends Task
     }
     private function getTagType($text): string {
         if (preg_match("/نوع الترشيح =(.*)/u", $text, $matches)) {
-            Logger::info("FeaturedContent: Tag type " .trim($matches[1]));
+            $this->log->info("FeaturedContent: Tag type " .trim($matches[1]));
             return trim($matches[1]);
         } else {
             throw new RuntimeException("Error: The tag type is not known.");
@@ -265,7 +264,7 @@ class FeaturedContent extends Task
                 $Archive = new PeerReviewArchive($this->api, $this->services, $this->query);
                 $Archive->Archive($NamePage);
                 } else {
-                    Logger::info("A page ${NamePage} that is not older than two days.");
+                    $this->log->info("A page ${NamePage} that is not older than two days.");
                 }
             }
         }
@@ -273,13 +272,13 @@ class FeaturedContent extends Task
     public function RUN(): void {
         try {
             $this->init();
-            Logger::info("Task FeaturedContent succeeded to execute.");
+            $this->log->info("Task FeaturedContent succeeded to execute.");
         } catch (Exception $error) {
-            Logger::fatal("Task FeaturedContent failed to execute.", [$error->getMessage()]);
+            $this->log->debug("Task FeaturedContent failed to execute.", [$error->getMessage()]);
         } catch (ImagickException $error) {
-            Logger::fatal("Task FeaturedContent failed to execute.", [$error->getMessage()]);
+            $this->log->debug("Task FeaturedContent failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
-            Logger::fatal("Task FeaturedContent failed to execute.", $error->getApiResult());
+            $this->log->debug("Task FeaturedContent failed to execute.", $error->getApiResult());
         }
     }
 }

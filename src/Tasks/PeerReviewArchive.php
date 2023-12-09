@@ -119,13 +119,13 @@ class PeerReviewArchive extends Task
                 $num++;
             }
             $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: أرشفة."));
-            Logger::info("Task PeerReviewArchive succeeded to execute.");
+            $this->log->info("Task PeerReviewArchive succeeded to execute.");
         } catch (Exception $error) {
-            Logger::fatal("Task PeerReviewArchive failed to execute.", [$error->getMessage()]);
+            $this->log->debug("Task PeerReviewArchive failed to execute.", [$error->getMessage()]);
         } catch (ImagickException $error) {
-            Logger::fatal("Task PeerReviewArchive failed to execute.", [$error->getMessage()]);
+            $this->log->debug("Task PeerReviewArchive failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
-            Logger::fatal("Task PeerReviewArchive failed to execute.", $error->getApiResult());
+            $this->log->debug("Task PeerReviewArchive failed to execute.", $error->getApiResult());
         }
         
     }
@@ -134,7 +134,7 @@ class PeerReviewArchive extends Task
         $pages2 = $this->getPagesCurrent();
         $pages = array_intersect($pages1, $pages2);
         foreach ($pages as $page) {
-            Logger::info("Task PeerReviewArchive: Work is done on a page ${page}.");
+            $this->log->info("Task PeerReviewArchive: Work is done on a page ${page}.");
             $this->Archive($page);
         }
         

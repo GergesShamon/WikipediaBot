@@ -30,7 +30,7 @@ class ReduceImages extends Task
         return false;
     }
     public function ReduceImage(string $filename, int $width, int $height) : void {
-        Logger::info("The bot reduces the file ${filename} size.");
+        $this->log->info("The bot reduces the file ${filename} size.");
         $ImageInfo = Util::getImageInfo($this->api, $filename, "url");
 
         $imageData = file_get_contents($ImageInfo["url"], false, stream_context_create([
@@ -52,24 +52,24 @@ class ReduceImages extends Task
                 "preferences",
                 true
             )) {
-                Logger::info("File ${filename} uploaded successfully.");
+                $this->log->info("File ${filename} uploaded successfully.");
             } else {
-                Logger::info("The file ${filename} was not uploaded.");
+                $this->log->info("The file ${filename} was not uploaded.");
             }
         } else {
-            Logger::warning("The file ${filename} format ${MIMEType} is not supported.");
+            $this->log->warning("The file ${filename} format ${MIMEType} is not supported.");
         }
     }
     public function removeFile($filename) : void {
         if (file_exists(FOLDER_TMP."/${filename}")) {
             // Check if the file exists before attempting to delete
             if (unlink(FOLDER_TMP."/${filename}")) {
-                Logger::info("File ${filename} deleted successfully.");
+                $this->log->info("File ${filename} deleted successfully.");
             } else {
-                Logger::info("Unable to delete the file ${filename}.");
+                $this->log->info("Unable to delete the file ${filename}.");
             }
         } else {
-            Logger::info("File ${filename} does not exist.");
+            $this->log->info("File ${filename} does not exist.");
         }
 
     }
@@ -82,13 +82,13 @@ class ReduceImages extends Task
                 $this->removeFile($image["img_name"]);
                 $i++;
             }
-            Logger::info("Task ReduceImages succeeded to execute.");
+            $this->log->info("Task ReduceImages succeeded to execute.");
         } catch (Exception $error) {
-            Logger::fatal("Task ReduceImages failed to execute.", [$error->getMessage()]);
+            $this->log->debug("Task ReduceImages failed to execute.", [$error->getMessage()]);
         } catch (ImagickException $error) {
-            Logger::fatal("Task ReduceImages failed to execute.", [$error->getMessage()]);
+            $this->log->debug("Task ReduceImages failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
-            Logger::fatal("Task ReduceImages failed to execute.", $error->getApiResult());
+            $this->log->debug("Task ReduceImages failed to execute.", $error->getApiResult());
         }
     }
 }

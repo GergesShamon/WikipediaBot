@@ -1,5 +1,6 @@
 {
     "require": {
-        "wiki-connect/mediawiki-api": "^1.0.1"
+        "wiki-connect/mediawiki-api": "^1.0.1",
+        "monolog/monolog": "^2.9"
     }
 }

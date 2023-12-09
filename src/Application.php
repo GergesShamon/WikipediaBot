@@ -30,8 +30,7 @@ if (!is_dir(FOLDER_LOGS)) {
     mkdir(FOLDER_LOGS);
 }
 
-//set folder logs
-Bot\IO\Logger::setFolderLog(FOLDER_LOGS);
+
 //load file .env
 $env = parse_ini_file(".env");
 
