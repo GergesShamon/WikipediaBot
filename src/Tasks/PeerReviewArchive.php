@@ -8,7 +8,6 @@ use WikiConnect\MediawikiApi\DataModel\Content;
 use WikiConnect\MediawikiApi\DataModel\Revision;
 use WikiConnect\MediawikiApi\DataModel\EditInfo;
 use Bot\IO\Util;
-use Bot\IO\Logger;
 
 class PeerReviewArchive extends Task
 {

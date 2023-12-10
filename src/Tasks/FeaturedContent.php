@@ -275,8 +275,6 @@ class FeaturedContent extends Task
             $this->log->info("Task FeaturedContent succeeded to execute.");
         } catch (Exception $error) {
             $this->log->debug("Task FeaturedContent failed to execute.", [$error->getMessage()]);
-        } catch (ImagickException $error) {
-            $this->log->debug("Task FeaturedContent failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
             $this->log->debug("Task FeaturedContent failed to execute.", $error->getApiResult());
         }
