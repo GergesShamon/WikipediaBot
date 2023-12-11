@@ -12,17 +12,7 @@ use Exception;
 
 class GrammarlyRepair extends Task
 {
-    private function StyleRepair(string $text): string {
-        $replacements = array(
-            "\/\\b(أنظر ايضا|انظر ايضا|أنظر أيضا|انظر ايضاً)\\b\/" => "انظر أيضًا",
-            "\/\\b(ايضاً|أيضا)\\b\/" => "أيضًا"
-        );
-        $str = $text;
-        foreach ($replacements as $pattern => $replacement) {
-            $str = preg_replace($pattern."u", $replacement, $str);
-        }
-        return $str;
-    }
+    
     private function SeparatorRepair(string $text): string {
         $replacements = array(
             "/([\p{Arabic}+|\]|\}|\>]),([\p{Arabic}+|\[|\{|\<])/" => "$1، $2",
@@ -42,7 +32,7 @@ class GrammarlyRepair extends Task
         foreach ($replacements as $pattern => $replacement) {
             if (preg_match_all($pattern."u", $str, $matches)) {
                 $str = $this->SeparatorRepair($str);
-                $str = $this->StyleRepair($str);
+                print_r($pattern."\n");
                 $str = preg_replace($pattern."u", $replacement, $str);
             }
         }
