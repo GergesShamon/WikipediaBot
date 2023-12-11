@@ -42,9 +42,7 @@ class GrammarlyRepair extends Task
         $page = $this->services->newPageGetter()->getFromTitle($name);
         $text = $page->getRevisions()->getLatest()->getContent()->getData();
         $reformedText = $this->Repair($text);
-        if ($text == $reformedText) {
-            $this->log->info("A page ${name} free of grammatical errors.");
-        } else {
+        if ($text != $reformedText) {
             $content = new Content($reformedText);
             $editInfo = new EditInfo("بوت: تدقيق لغوي (تجربة)");
             $revision = new Revision($content, $page->getPageIdentifier());
