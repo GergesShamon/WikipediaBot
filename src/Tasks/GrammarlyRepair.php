@@ -30,7 +30,7 @@ class GrammarlyRepair extends Task
         $replacements = json_decode(Util::ReadFile(FOLDER_JSON . "/replacements.json"));
         $str = $text;
         foreach ($replacements as $pattern => $replacement) {
-            $pattern = "/".$pattern."((?![^\{]*\})(?![^\[]*\]))/u";
+            $pattern = "/".$pattern."((?![^\{]*\})(?![^\[]*\])(?![^<]*<\/.*>))/u";
             if (preg_match_all($pattern, $str, $matches)) {
                 $str = $this->SeparatorRepair($str);
                 $str = preg_replace($pattern, $replacement, $str);
