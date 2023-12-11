@@ -53,7 +53,7 @@ class GrammarlyRepair extends Task
     private function init(){
         $OFFSET = 0;
         while (true){
-            $query = $this->query->getArray(Util::ReadFile(FOLDER_SQL . "/getAllPages.sql", [
+            $query = $this->query->getArray(Util::ReadFile(FOLDER_SQL . "/getPages_GrammarlyRepair.sql", [
                 "LIMIT" => 1000,
                 "OFFSET" => $OFFSET
             ]));
