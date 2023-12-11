@@ -32,7 +32,6 @@ class GrammarlyRepair extends Task
         foreach ($replacements as $pattern => $replacement) {
             if (preg_match_all($pattern."u", $str, $matches)) {
                 $str = $this->SeparatorRepair($str);
-                print_r($pattern."\n");
                 $str = preg_replace($pattern."u", $replacement, $str);
             }
         }
