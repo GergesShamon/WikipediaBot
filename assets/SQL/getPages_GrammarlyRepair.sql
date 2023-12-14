@@ -5,7 +5,7 @@ INNER JOIN templatelinks ON p.page_id = templatelinks.tl_from
 INNER JOIN linktarget ON templatelinks.tl_target_id = linktarget.lt_id
 WHERE p.page_is_redirect = 0
 AND p.page_namespace = 0
-AND r.rev_timestamp > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+AND r.rev_timestamp > DATE_SUB(NOW(), INTERVAL 1 DAY)
 AND linktarget.lt_title NOT LIKE "لا_للأخطاء_الإملائية"
 GROUP BY p.page_title
 ORDER BY r.rev_timestamp DESC

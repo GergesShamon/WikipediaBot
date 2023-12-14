@@ -13,3 +13,13 @@
   command: php /data/project/gergesbot2/WikipediaBot/src/RunTask PeerReviewArchive
   image: php8.2
   emails: onfailure
+- name: requests.review.edits
+  schedule: "0 2 * * *"
+  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask RequestsReviewEdits
+  image: php8.2
+  emails: onfailure
+- name: requests.review.pages
+  schedule: "0 2 * * *"
+  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask RequestsReviewPages
+  image: php8.2
+  emails: onfailure
