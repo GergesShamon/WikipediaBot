@@ -65,7 +65,7 @@ class GrammarlyRepair extends Task
                 $this->RunRepair($page);
             }
             sleep(1);
-            $OFFSET+1000;
+            $OFFSET=+1000;
         }
     }
     public function RUN(): void {

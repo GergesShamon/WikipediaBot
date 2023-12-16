@@ -812,16 +812,16 @@
         },
         {
             "name": "wiki-connect/mediawiki-api",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wiki-connect/mediawiki-api.git",
-                "reference": "b764402f21f603a3e42abf80d4f7120effbff2b5"
+                "url": "https://github.com/wiki-connect/MediawikiApi.git",
+                "reference": "0ca8f9fc298fd1360202667859090180920baec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wiki-connect/mediawiki-api/zipball/b764402f21f603a3e42abf80d4f7120effbff2b5",
-                "reference": "b764402f21f603a3e42abf80d4f7120effbff2b5",
+                "url": "https://api.github.com/repos/wiki-connect/MediawikiApi/zipball/0ca8f9fc298fd1360202667859090180920baec4",
+                "reference": "0ca8f9fc298fd1360202667859090180920baec4",
                 "shasum": ""
             },
             "require": {
@@ -853,10 +853,10 @@
                 "mediawiki"
             ],
             "support": {
-                "issues": "https://github.com/wiki-connect/mediawiki-api/issues",
-                "source": "https://github.com/wiki-connect/mediawiki-api/tree/v1.0.2"
+                "issues": "https://github.com/wiki-connect/MediawikiApi/issues",
+                "source": "https://github.com/wiki-connect/MediawikiApi/tree/v1.0.3"
             },
-            "time": "2023-12-14T15:00:20+00:00"
+            "time": "2023-12-15T17:00:00+00:00"
         }
     ],
     "packages-dev": [],

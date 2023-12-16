@@ -5,6 +5,7 @@ use WikiConnect\MediawikiApi\Client\Action\Exception\UsageException;
 use Bot\IO\Util;
 use Bot\IO\ReduceImage;
 use Bot\IO\Logger;
+use Bot\Service\FileUploader;
 use Exception;
 use ImagickException;
 
@@ -43,7 +44,7 @@ class ReduceImages extends Task
         if ($this->checkMIMEType($MIMEType)) {
             $reducer = new ReduceImage($imageData);
             $reducer->reduce(400, $filename);
-            $fileUploader = new \Bot\Service\FileUploader($this->api);
+            $fileUploader = new FileUploader($this->api);
             if ($fileUploader->upload(
                 $filename,
                 fopen(FOLDER_TMP."/".$filename, "r"),
