@@ -12,11 +12,16 @@ use Exception;
 
 class RemoveMissingFiles extends Task
 {
-    
+    private function getImages(string $name): array {
+        $page = $this->services->newPageGetter()->getFromTitle($name);
+        return $this->services->newParser()->parsePage($page->getPageIdentifier(), [
+            "prop" => "images"
+        ])["images"];
+    }
     private function Remove(string $text, string $image): string {
         $patterns = [
-            "/(\n?\[\[.*".preg_quote($image).".*?\]\])/u",
-            "/(\n?.*=.*".preg_quote($image).".*?)/u"
+            "/(\n?\[\[.*".preg_quote($image).".*?\]\]$)/um",
+            "/(\n?.*=.*".preg_quote($image)."$)/um"
         ];
         $output = $text;
         foreach ($patterns as $pattern){
@@ -27,12 +32,11 @@ class RemoveMissingFiles extends Task
         }
         return $output;
     }
-    private function RunRemover(string $name, string $imagesP): void {
-        $run = false;
+    private function RunRemover(string $name, array $images): void {
         $page = $this->services->newPageGetter()->getFromTitle($name);
         $text = $page->getRevisions()->getLatest()->getContent()->getData();
         $reformedText = $text;
-        $chunks = array_chunk(explode("#,#", $imagesP), 30);
+        $chunks = array_chunk($images, 30);
         foreach ($chunks as $chunk){
             $images = $this->services->newImageInfo()->get($chunk);
             foreach($images as $image){
@@ -43,7 +47,7 @@ class RemoveMissingFiles extends Task
         }
         if ($text != $reformedText) {
             $content = new Content($reformedText);
-            $editInfo = new EditInfo("بوت: إزالة ملفات معطوبة (تجربة)");
+            $editInfo = new EditInfo("بوت: إزالة صورة غير موجودة (تجربة)");
             $revision = new Revision($content, $page->getPageIdentifier());
             $this->services->newRevisionSaver()->save($revision, $editInfo);
             $this->log->info("The bot removed missing files on a page ${name}.");
@@ -52,15 +56,15 @@ class RemoveMissingFiles extends Task
     private function init(){
         $OFFSET = 1;
         while (true){
-            $query = $this->query->getArray(Util::ReadFile(FOLDER_SQL . "/PagesWithMissingFiles.sql", [
+            $pages = array_column($this->query->getArray(Util::ReadFile(FOLDER_SQL . "/PagesWithMissingFiles.sql", [
                 "LIMIT" => 100,
                 "OFFSET" => $OFFSET
-            ]));
-            if (empty($query)){
+            ])), "page_title");
+            if (empty($pages)){
                 break;
             }
-            foreach ($query as $page) {
-                $this->RunRemover($page["page_title"], $page["linked_images"]);
+            foreach ($pages as $page) {
+                $this->RunRemover($page, $this->getImages($page));
             }
             $OFFSET=+100;
         }
