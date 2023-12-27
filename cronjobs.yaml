@@ -1,25 +1,30 @@
 - name: reduce.images
   schedule: "0 0 * * 0"
-  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask ReduceImages
+  command: php ${HOME}/WikipediaBot/src/RunTask ReduceImages
   image: php8.2
   emails: onfailure
 - name: featured.content
   schedule: "0 2 * * *"
-  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask FeaturedContent
+  command: php ${HOME}/WikipediaBot/src/RunTask FeaturedContent
   image: php8.2
   emails: onfailure
 - name: peer.review.archive
   schedule: "0 */5 * * *"
-  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask PeerReviewArchive
+  command: php ${HOME}/WikipediaBot/src/RunTask PeerReviewArchive
   image: php8.2
   emails: onfailure
 - name: requests.review.edits
   schedule: "0 2 * * *"
-  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask RequestsReviewEdits
+  command: php ${HOME}/WikipediaBot/src/RunTask RequestsReviewEdits
   image: php8.2
   emails: onfailure
 - name: requests.review.pages
   schedule: "0 2 * * *"
-  command: php /data/project/gergesbot2/WikipediaBot/src/RunTask RequestsReviewPages
+  command: php ${HOME}/WikipediaBot/src/RunTask RequestsReviewPages
+  image: php8.2
+  emails: onfailure
+- name: undo.requests
+  schedule: "0 */5 * * *"
+  command: php ${HOME}/WikipediaBot/src/RunTask UndoRequests
   image: php8.2
   emails: onfailure

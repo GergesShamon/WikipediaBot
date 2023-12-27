@@ -38,7 +38,7 @@ class GrammarlyRepair extends Task
         }
         return $str;
     }
-    private function RunRepair(string $name): void {
+    public function RunRepair(string $name): void {
         $page = $this->services->newPageGetter()->getFromTitle($name);
         $text = $page->getRevisions()->getLatest()->getContent()->getData();
         $reformedText = $this->Repair($text);
