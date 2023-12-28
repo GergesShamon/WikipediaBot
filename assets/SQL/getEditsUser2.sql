@@ -12,4 +12,5 @@ AND (change_tag_def.ctd_name IS NULL OR change_tag_def.ctd_name != 'mw-reverted'
 AND revision_userindex.rev_parent_id != 0
 AND revision_userindex.rev_id <= {{To}}
 AND revision_userindex.rev_id >= {{From}}
+AND page.page_namespace != 3
 GROUP BY page.page_id;
