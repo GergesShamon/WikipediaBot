@@ -121,17 +121,16 @@ class PeerReviewArchive extends Task
             $this->log->info("Task PeerReviewArchive succeeded to execute.");
         } catch (Exception $error) {
             $this->log->debug("Task PeerReviewArchive failed to execute.", [$error->getMessage()]);
-        } catch (ImagickException $error) {
-            $this->log->debug("Task PeerReviewArchive failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
             $this->log->debug("Task PeerReviewArchive failed to execute.", $error->getApiResult());
         }
         
     }
     public function RUN(): void {
-        $pages1 = $this->getPagesRejected();
+        $pages1 = array_merge($this->getPagesRejected(), $this->getPagesAcceptable());
         $pages2 = $this->getPagesCurrent();
         $pages = array_intersect($pages1, $pages2);
+        print_r($pages);
         foreach ($pages as $page) {
             $this->log->info("Task PeerReviewArchive: Work is done on a page ${page}.");
             $this->Archive($page);

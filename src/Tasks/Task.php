@@ -15,12 +15,14 @@ abstract class Task {
     protected ActionApi $api;
     protected MediawikiFactory $services;
     protected QueryDB $query;
+    protected mysqli $mysqli;
     protected Logger $log;
 	
 	public function __construct(ActionApi $api, MediawikiFactory $services, mysqli $mysqli) {
         $this->api = $api;
         $this->services = $services;
         $this->query = new QueryDB($mysqli);
+        $this->mysqli = $mysqli;
         $this->log = new Logger("Task");
         $this->log->pushHandler($this->getStreamLogger());
     }

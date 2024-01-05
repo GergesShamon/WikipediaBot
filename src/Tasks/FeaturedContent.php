@@ -11,6 +11,7 @@ use Bot\IO\Util;
 
 class FeaturedContent extends Task
 {
+    
     private function getPage($name): Page {
         return $this->services->newPageGetter()->getFromTitle($name);
     }
@@ -55,7 +56,7 @@ class FeaturedContent extends Task
             "Name" => str_replace(" ", "_", $name)
         ];
         
-        $CountSections = count($services->newParser()->parsePage($page->getPageIdentifier())["sections"]);
+        $CountSections = count($this->services->newParser()->parsePage($page->getPageIdentifier())["sections"]);
         
         // remove cat links
         $text = preg_replace("/\[\[[^:]*?\]\]/", "", $text);
@@ -95,10 +96,13 @@ class FeaturedContent extends Task
         switch ($tag) {
             case "مختارة":
                 return "ويكيبيديا:ترشيحات المقالات المختارة";
+                break;
             case "جيدة":
                 return "ويكيبيديا:ترشيحات المقالات الجيدة";
+                break;
             case "قائمة":
                 return "ويكيبيديا:ترشيحات القوائم المختارة";
+                break;
             default:
                 throw new RuntimeException("Error: Tag type is wrong.");
         }
@@ -113,7 +117,7 @@ class FeaturedContent extends Task
         $VotingPageName = $this->getVotingPageIndex($tag) . "/" . $name;
         $VotePage = $this->getPage($VotingPageName);
         $TextPage = Util::PregReplace(
-            $VotePage->getRevisions()->getLatest()->getContent()->getData(),
+            $this->getPage($TemplateTag)->getRevisions()->getLatest()->getContent()->getData(),
             [
                 ["/{\{\بيانات مقالة مرشحة\/مدخل آلي\|الكلمات\}\}/u", $data["words"]],
                 ["/{\{\بيانات مقالة مرشحة\/مدخل آلي\|الأقسام\}\}/u", $data["sections"]],
@@ -152,7 +156,7 @@ class FeaturedContent extends Task
                 ["/{{{تعليق}}}/", $comment],
             ],
         );
-        $revision = new Revision(new Content($TextPage),$VotePage->getPageIdentifier());
+        $revision = new Revision(new Content($TextPage), $VotePage->getPageIdentifier());
         $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: إنشاء."));
     }
     private function getPages(): array {
@@ -179,10 +183,13 @@ class FeaturedContent extends Task
         switch ($tag) {
             case "مختارة":
                 $template = "مممخ";
+                break;
             case "جيدة":
                 $template = "مممج";
+                break;
             case "قائمة":
                 $template = "قمخ";
+                break;
             default:
                 throw new RuntimeException("Error: Tag type is wrong.");
         }
@@ -199,10 +206,13 @@ class FeaturedContent extends Task
         switch ($tag) {
             case "مختارة":
                 $template = "ترشيح مقالة مختارة";
+                break;
             case "جيدة":
                 $template = "ترشيح مقالة جيدة";
+                break;
             case "قائمة":
                 $template = "ترشيح قائمة مختارة";
+                break;
             default:
                 throw new RuntimeException("Error: Tag type is wrong.");
         }
@@ -242,18 +252,20 @@ class FeaturedContent extends Task
     private function init() {
         $PagesArray = $this->getPages();
         foreach ($PagesArray as $name) {
-            if (strpos($name["page_title"], "مراجعة_الزملاء/") !== false) {
+            
+            if (strpos($name["page_title"], "مراجعة الزملاء/") !== false) {
                 $NamePage = str_replace(
                     "_",
                     " ",
-                    str_replace("مراجعة_الزملاء/", "", $name["page_title"]),
+                    str_replace("مراجعة الزملاء/", "", $name["page_title"]),
                 );
-                $Page = $this->getPage("ويكيبيديا:مراجعة الزملاء/${name}");
+                
+                $Page = $this->getPage("ويكيبيديا:مراجعة الزملاء/${NamePage}");
                 $TextPage = $Page->getRevisions()->getLatest()->getContent()->getData();
                 $_data = $this->getDataPage($NamePage);
                 $Comment = $this->getComment($TextPage);
                 $Tag = $this->getTagType($TextPage);
-                $ReviewEndDate = $this->getReviewEndDate($TextPage);
+                $ReviewEndDate = $this->getEnd($TextPage);
                 if($this->TwoDaysPassed($ReviewEndDate)){
                 $TemplateTag = $this->getTemplateTag($Tag);
                 $this->CreateVotePage($_data, $NamePage, $Comment, $TemplateTag, $Tag);
