@@ -127,7 +127,11 @@ class PeerReviewArchive extends Task
         
     }
     public function RUN(): void {
+        /*
+            So that there is no conflict with the task of FeaturedContent
         $pages1 = array_merge($this->getPagesRejected(), $this->getPagesAcceptable());
+        */
+        $pages1 = $this->getPagesRejected();
         $pages2 = $this->getPagesCurrent();
         $pages = array_intersect($pages1, $pages2);
         print_r($pages);
