@@ -28,3 +28,8 @@
   command: php ${HOME}/WikipediaBot/src/RunTask UndoRequests
   image: php8.2
   emails: onfailure
+- name: remove.missing.files
+  schedule: "0 0 * * 0"
+  command: php ${HOME}/WikipediaBot/src/RunTask RemoveMissingFiles
+  image: php8.2
+  emails: onfailure
