@@ -47,7 +47,7 @@ class RemoveMissingFiles extends Task
         }
         if ($text != $reformedText) {
             $content = new Content($reformedText);
-            $editInfo = new EditInfo("بوت: إزالة صور غير موجودة (تجربة)");
+            $editInfo = new EditInfo("بوت: إزالة صور غير موجودة");
             $revision = new Revision($content, $page->getPageIdentifier());
             $this->services->newRevisionSaver()->save($revision, $editInfo);
             $this->log->info("The bot removed missing files on a page ${name}.");
