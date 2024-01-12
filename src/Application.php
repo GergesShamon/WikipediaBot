@@ -15,6 +15,8 @@ define("FOLDER_LOGS", dirname(__DIR__) . "/logs");
 define("FOLDER_ASSETS", dirname(__DIR__) . "/assets");
 define("FOLDER_SQL", dirname(__DIR__) . "/assets/SQL");
 define("FOLDER_JSON", dirname(__DIR__) . "/assets/JSON");
+define("FOLDER_MODELS", dirname(__DIR__) . "/assets/Models");
+
 $_SERVER["SERVER_NAME"] = "WikipediaBot";
 //Check if folders exists
 if (!is_dir(FOLDER_ASSETS)) {
