@@ -46,7 +46,7 @@ class AllocatingStubs extends Task
         $text = $page->getRevisions()->getLatest()->getContent()->getData();
         $content = new Content(str_replace("{{بذرة}}", "{{".$stub."}}", $text));
         $revision = new Revision($content, $page->getPageIdentifier());
-        $editInfo = new EditInfo("بوت: تخصيص بذرة");
+        $editInfo = new EditInfo("بوت: تخصيص بذرة", true,  true);
         $this->services->newRevisionSaver()->save($revision, $editInfo);
     }
     public function RUN(): void {

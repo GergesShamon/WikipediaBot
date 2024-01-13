@@ -65,7 +65,7 @@ class UndoRequests extends Task
         $text = $page->getRevisions()->getLatest()->getContent()->getData();
         $content = new Content(str_replace("{{/ترويسة}}", "", $input));
         $revision = new Revision($content, $page->getPageIdentifier());
-        $editInfo = new EditInfo("بوت: طلب");
+        $editInfo = new EditInfo("بوت: طلب", true,  true);
         $this->services->newRevisionSaver()->save($revision, $editInfo);
         
     }
@@ -78,7 +78,7 @@ class UndoRequests extends Task
             if($this->userCheck($latestUser)){
                 $content = new Content("{{/ترويسة}}");
                 $revision = new Revision($content, $page->getPageIdentifier());
-                $editInfo = new EditInfo("بوت: جاري تنفيذ...");
+                $editInfo = new EditInfo("بوت: جاري تنفيذ...", true,  true);
                 $this->services->newRevisionSaver()->save($revision, $editInfo);
                 foreach ($requests as $request){
                     $username = $request["username"];
@@ -92,7 +92,7 @@ class UndoRequests extends Task
                             $_page = $this->services->newPageGetter()->getFromPageId($edit["page_id"]);
                             $pagetitle = $_page->getPageIdentifier()->getTitle()->getText();
                             $undoafter = $edit["rev_undoafter"];
-                            if($this->services->newRevisionUndoer()->undo($_page->getRevisions()->getLatest(), new EditInfo("بوت استرجاع تخريب كمي: استرجاع تعديلات ${username}"), $undoafter)){
+                            if($this->services->newRevisionUndoer()->undo($_page->getRevisions()->getLatest(), new EditInfo("بوت استرجاع تخريب كمي: استرجاع تعديلات ${username}", true,  true), $undoafter)){
                                 $this->log->info("The ${username} user edits on ${pagetitle} have been undone.");
                             }
                         }
@@ -101,7 +101,7 @@ class UndoRequests extends Task
             } else {
                 $content = new Content("{{/ترويسة}}");
                 $revision = new Revision($content, $page->getPageIdentifier());
-                $editInfo = new EditInfo("بوت: نقل الطلب إلى نقاش لأن مُقدم الطلب لا يحمل صلاحيات محرر");
+                $editInfo = new EditInfo("بوت: نقل الطلب إلى نقاش لأن مُقدم الطلب لا يحمل صلاحيات محرر", true,  true);
                 $this->services->newRevisionSaver()->save($revision, $editInfo);
                 $this->moveRequestToTalk($text);
             }

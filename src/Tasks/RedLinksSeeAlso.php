@@ -56,7 +56,7 @@ class RedLinksSeeAlso extends Task
                     }
                     if ($text != $textR){
                         $_text = $page->getRevisions()->getLatest()->getContent()->getData();
-                        $editInfo = new EditInfo("بوت: إزالة وصلات مكسورة من انظر أيضا (تجربة)");
+                        $editInfo = new EditInfo("بوت: إزالة وصلات مكسورة من انظر أيضا (تجربة)", true,  true);
                         $content = new Content(str_replace($text, $textR, $_text));
                         $revision = new Revision($content, $page->getPageIdentifier());
                         $this->services->newRevisionSaver()->save($revision, $editInfo);

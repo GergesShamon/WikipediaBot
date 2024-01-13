@@ -157,7 +157,7 @@ class FeaturedContent extends Task
             ],
         );
         $revision = new Revision(new Content($TextPage), $VotePage->getPageIdentifier());
-        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: إنشاء."));
+        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: إنشاء.", true,  true));
     }
     private function getPages(): array {
         return $this->query->getArray(Util::ReadFile(FOLDER_SQL . "/GetPagesFromCategories.sql", [
@@ -200,7 +200,7 @@ class FeaturedContent extends Task
                         "اسم المقالة}} -->\n{{".$template."|".$name."}}",
                         $text
                     )),$page->getPageIdentifier());
-        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: إضافة ترشيح جديد."));
+        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: إضافة ترشيح جديد.", true,  true));
     }
     private function AddTagVote($name, $tag): void {
         switch ($tag) {
@@ -223,7 +223,7 @@ class FeaturedContent extends Task
                     "{{".$template."|{{نسخ:يوم وشهر وسنة}}}}",
                     $text
                 )),$page->getPageIdentifier());
-        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: تغير قالب مراجعة الزملاء إلى ترشيح مقالة"));
+        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: تغير قالب مراجعة الزملاء إلى ترشيح مقالة", true,  true));
     }
     private function TwoDaysPassed($ReviewEndDate) {
         $months = array(

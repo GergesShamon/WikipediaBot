@@ -44,7 +44,7 @@ class GrammarlyRepair extends Task
         $reformedText = $this->Repair($text);
         if ($text != $reformedText) {
             $content = new Content($reformedText);
-            $editInfo = new EditInfo("بوت: تدقيق لغوي (تجربة)");
+            $editInfo = new EditInfo("بوت: تدقيق لغوي (تجربة)", true,  true);
             $revision = new Revision($content, $page->getPageIdentifier());
             $this->services->newRevisionSaver()->save($revision, $editInfo);
             $this->log->info("grammatical errors were corrected on this page ${name}.");

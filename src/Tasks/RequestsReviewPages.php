@@ -93,7 +93,7 @@ class RequestsReviewPages extends Task
         }, $page->getRevisions()->getLatest()->getContent()->getData());
 
         $revision = new Revision(new Content($newWikitext),$page->getPageIdentifier());
-        $editInfo = new EditInfo("بوت: طلبات مُنجزة");
+        $editInfo = new EditInfo("بوت: طلبات مُنجزة", true,  true);
         $this->services->newRevisionSaver()->save($revision, $editInfo);
     }
     public function RUN(): void {

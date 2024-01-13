@@ -58,7 +58,7 @@ class PeerReviewArchive extends Task
         $page = $this->services->newPageGetter()->getFromTitle("ويكيبيديا:مراجعة الزملاء");
         $text = $page->getRevisions()->getLatest()->getContent()->getData();
         $revision = new Revision(new Content(str_replace("\n{{متمز|$name}}", "", $text)),$page->getPageIdentifier());
-        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: أرشفة."));
+        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: أرشفة.", true,  true));
     }
     private function getTemplate_FormatReviewPage($tag): string {
         switch ($tag) {
@@ -89,7 +89,7 @@ class PeerReviewArchive extends Task
             $text,
         );
         $revision = new Revision(new Content($text),$page->getPageIdentifier());
-        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: تنسيق الصفحة."));
+        $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: تنسيق الصفحة.", true,  true));
     }
     public function Archive($name): void {
         try {
@@ -112,12 +112,12 @@ class PeerReviewArchive extends Task
                     break;
                 } else {
                     if (!$ArchivePage->getPageIdentifier()->getId() == 0) {
-                        $this->services->newRevisionSaver()->save(new Revision(new Content("{{ويكيبيديا:مراجعة الزملاء/تبويب}}\n{{أرشيف مراجعة الزملاء\n| 1 = ${num}\n}}"),$ArchivePage->getPageIdentifier()), new EditInfo("بوت: إنشاء صفحة أرشيف."));
+                        $this->services->newRevisionSaver()->save(new Revision(new Content("{{ويكيبيديا:مراجعة الزملاء/تبويب}}\n{{أرشيف مراجعة الزملاء\n| 1 = ${num}\n}}"),$ArchivePage->getPageIdentifier()), new EditInfo("بوت: إنشاء صفحة أرشيف.", true,  true));
                     }
                 }
                 $num++;
             }
-            $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: أرشفة."));
+            $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: أرشفة.", true,  true));
             $this->log->info("Task PeerReviewArchive succeeded to execute.");
         } catch (Exception $error) {
             $this->log->debug("Task PeerReviewArchive failed to execute.", [$error->getMessage()]);
