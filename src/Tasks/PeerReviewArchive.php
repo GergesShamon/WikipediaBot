@@ -134,7 +134,7 @@ class PeerReviewArchive extends Task
         $pages1 = $this->getPagesRejected();
         $pages2 = $this->getPagesCurrent();
         $pages = array_intersect($pages1, $pages2);
-        print_r($pages);
+        
         foreach ($pages as $page) {
             $this->log->info("Task PeerReviewArchive: Work is done on a page ${page}.");
             $this->Archive($page);
