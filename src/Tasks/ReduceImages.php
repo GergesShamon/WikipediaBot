@@ -25,7 +25,7 @@ class ReduceImages extends Task
         return "";
     }
     private function checkMIMEType($mime_type) : bool {
-        if (in_array($mime_type, array("image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp"))) {
+        if (in_array($mime_type, array("image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp", "image/tiff"))) {
             return true;
         }
         return false;
