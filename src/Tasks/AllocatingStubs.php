@@ -53,11 +53,11 @@ class AllocatingStubs extends Task
         try {
             $pages = $this->getPages();
             $this->allocating($pages);
-            $this->log->info("Task RequestsReviewEdits succeeded to execute.");
+            $this->log->info("Task AllocatingStubs succeeded to execute.");
         } catch (Exception $error) {
-            $this->log->debug("Task RequestsReviewEdits failed to execute.", [$error->getMessage()]);
+            $this->log->debug("Task AllocatingStubs failed to execute.", [$error->getMessage()]);
         } catch (UsageException $error) {
-            $this->log->debug("Task RequestsReviewEdits failed to execute.", $error->getApiResult());
+            $this->log->debug("Task AllocatingStubs failed to execute.", $error->getApiResult());
         }
     }
 }
