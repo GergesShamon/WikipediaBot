@@ -30,38 +30,38 @@ class Templates extends Task
     private function savePage(Page $page, string $text, string $summary = "بوت: تحديث"): void {
         $content = new Content($text);
         $revision = new Revision($content, $page->getPageIdentifier());
-        $editInfo = new EditInfo($summary, true,  true);
+        $editInfo = new EditInfo($summary, true, true);
         $this->services->newRevisionSaver()->save($revision, $editInfo);
     }
-    
+
     public function ArabicIdentifiersWikidata(): void {
-        $this->running(function(){
-        $page = $this->getPage("قالب:معرفات عربية في ويكي بيانات");
-        $text = $this->getText($page);
-        if ($this->getVariable($text, "حدث الصفحة") == "نعم"){
+        $this->running(function() {
+            $page = $this->getPage("قالب:معرفات عربية في ويكي بيانات");
+            $text = $this->getText($page);
+
             if (preg_match_all("/\{\{خاصية\|(.*)\}\}/u", $text, $matches)) {
                 $wikibaseQuery = new WikibaseQuery("https://query.wikidata.org/bigdata/namespace/wdq/sparql");
                 $properties = $matches[1];
-                foreach ($properties as $property){
+                foreach ($properties as $property) {
                     $count = count($wikibaseQuery->query(Util::ReadFile(FOLDER_SPARQL . "/getProperty.sparql", [
                         "Property" => $property
                     ]))["results"]["bindings"]);
                     $text = preg_replace("/(\* \{\{خاصية\|${property}\}\})( \d+)?/u", "$1 ${count}", $text);
                 }
-                $text = preg_replace("/حدث الصفحة =(.*)/u", "حدث الصفحة = لا", $text);
+
                 $this->savePage($page, $text);
-                
+
             } else {
                 throw new RuntimeException("An error occurred while getting properties.");
             }
-        }
+
         });
     }
     private function init(): void {
         $this->ArabicIdentifiersWikidata();
     }
     public function RUN(): void {
-        $this->running(function(){
+        $this->running(function() {
             $this->init();
         });
     }
