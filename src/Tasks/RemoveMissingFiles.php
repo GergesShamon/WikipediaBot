@@ -68,15 +68,11 @@ class RemoveMissingFiles extends Task
             }
             $OFFSET=+100;
         }
+    
     }
     public function RUN(): void {
-        try {
+        $this->running(function(){
             $this->init();
-            $this->log->info("Task RemoveMissingFiles succeeded to execute.");
-        } catch (Exception $error) {
-            $this->log->debug("Task RemoveMissingFiles failed to execute.", [$error->getMessage()]);
-        } catch (UsageException $error) {
-            $this->log->debug("Task RemoveMissingFiles failed to execute.", $error->getApiResult());
-        }
+        });
     }
 }

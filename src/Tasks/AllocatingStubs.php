@@ -50,14 +50,9 @@ class AllocatingStubs extends Task
         $this->services->newRevisionSaver()->save($revision, $editInfo);
     }
     public function RUN(): void {
-        try {
+        $this->running(function(){
             $pages = $this->getPages();
             $this->allocating($pages);
-            $this->log->info("Task AllocatingStubs succeeded to execute.");
-        } catch (Exception $error) {
-            $this->log->debug("Task AllocatingStubs failed to execute.", [$error->getMessage()]);
-        } catch (UsageException $error) {
-            $this->log->debug("Task AllocatingStubs failed to execute.", $error->getApiResult());
-        }
+        });
     }
 }

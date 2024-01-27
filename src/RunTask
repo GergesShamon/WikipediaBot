@@ -5,7 +5,12 @@ $name = $argv[1];
 $className = "Bot\\Tasks\\${name}";
 if (class_exists($className)) {
         $Task = new $className($api,  $services, $mysqli);
-        $Task->RUN();
+        if (isset($argv[2])){
+            $_function = $argv[2];
+            $Task->$_function();
+        } else {
+            $Task->RUN();
+        }
 } else {
         echo "Class $className does not exist.";
 }

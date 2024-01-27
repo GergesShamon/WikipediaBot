@@ -78,13 +78,8 @@ class RequestsReviewEdits extends Task
         $this->services->newRevisionSaver()->save($revision, $editInfo);
     }
     public function RUN(): void {
-        try {
+        $this->running(function(){
             $this->init();
-            $this->log->info("Task RequestsReviewEdits succeeded to execute.");
-        } catch (Exception $error) {
-            $this->log->debug("Task RequestsReviewEdits failed to execute.", [$error->getMessage()]);
-        } catch (UsageException $error) {
-            $this->log->debug("Task RequestsReviewEdits failed to execute.", $error->getApiResult());
-        }
+        });
     }
 }

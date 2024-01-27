@@ -1,0 +1,1 @@
+php ${HOME}/WikipediaBot/src/RunTask PeerReviewArchive

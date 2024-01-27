@@ -282,14 +282,9 @@ class FeaturedContent extends Task
         }
     }
     public function RUN(): void {
-        try {
+        $this->running(function(){
             $this->init();
-            $this->log->info("Task FeaturedContent succeeded to execute.");
-        } catch (Exception $error) {
-            $this->log->debug("Task FeaturedContent failed to execute.", [$error->getMessage()]);
-        } catch (UsageException $error) {
-            $this->log->debug("Task FeaturedContent failed to execute.", $error->getApiResult());
-        }
+        });
     }
 }
 ?>

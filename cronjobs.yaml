@@ -1,35 +1,20 @@
-- name: reduce.images
-  schedule: "0 0 * * 0"
-  command: php ${HOME}/WikipediaBot/src/RunTask ReduceImages
-  image: php8.2
-  emails: onfailure
-- name: featured.content
-  schedule: "0 2 * * *"
-  command: php ${HOME}/WikipediaBot/src/RunTask FeaturedContent
-  image: php8.2
-  emails: onfailure
-- name: peer.review.archive
-  schedule: "0 */5 * * *"
-  command: php ${HOME}/WikipediaBot/src/RunTask PeerReviewArchive
-  image: php8.2
-  emails: onfailure
-- name: requests.review.edits
-  schedule: "0 2 * * *"
-  command: php ${HOME}/WikipediaBot/src/RunTask RequestsReviewEdits
-  image: php8.2
-  emails: onfailure
-- name: requests.review.pages
-  schedule: "0 2 * * *"
-  command: php ${HOME}/WikipediaBot/src/RunTask RequestsReviewPages
-  image: php8.2
-  emails: onfailure
-- name: undo.requests
+- name: always
   schedule: "*/5 * * * *"
-  command: php ${HOME}/WikipediaBot/src/RunTask UndoRequests
+  command: php ${HOME}/WikipediaBot/bin/always.sh
   image: php8.2
   emails: onfailure
-- name: remove.missing.files
+- name: hour
+  schedule: "0 */1 * * *"
+  command: php ${HOME}/WikipediaBot/bin/hour.sh
+  image: php8.2
+  emails: onfailure
+- name: daily
+  schedule: "0 1 * * *"
+  command: php ${HOME}/WikipediaBot/bin/daily.sh
+  image: php8.2
+  emails: onfailure
+- name: weekly
   schedule: "0 0 * * 0"
-  command: php ${HOME}/WikipediaBot/src/RunTask RemoveMissingFiles
+  command: php ${HOME}/WikipediaBot/bin/weekly.sh
   image: php8.2
   emails: onfailure

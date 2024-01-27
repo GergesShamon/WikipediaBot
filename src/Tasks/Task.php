@@ -9,6 +9,7 @@ use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Bot\IO\QueryDB;
+use Throwable;
 
 abstract class Task {
 
@@ -29,6 +30,14 @@ abstract class Task {
     public function getStreamLogger(): StreamHandler {
         $day = date("d-M-Y");
         return new StreamHandler(FOLDER_LOGS . "/" . str_replace("Bot\\Tasks\\","",get_class($this)) . "/log-{$day}.log");
+    }
+    protected function running($fun): void {
+        try{
+            call_user_func($fun);
+            $this->log->info("Task ".str_replace("Bot\\Tasks\\","",get_class($this))." succeeded to execute.");
+        } catch (Throwable $error) {
+            $this->log->debug("Task ".str_replace("Bot\\Tasks\\","",get_class($this))." failed to execute.", [$error->__toString()]);
+        }
     }
 
 }

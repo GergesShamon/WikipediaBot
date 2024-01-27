@@ -74,8 +74,9 @@ class ReduceImages extends Task
         }
 
     }
-    public function RUN() : void {
-        try {
+    
+    public function RUN(): void {
+        $this->running(function(){
             $images = $this->getImages();
             $i = 0;
             foreach ($images as $image) {
@@ -83,13 +84,6 @@ class ReduceImages extends Task
                 $this->removeFile($image["img_name"]);
                 $i++;
             }
-            $this->log->info("Task ReduceImages succeeded to execute.");
-        } catch (Exception $error) {
-            $this->log->debug("Task ReduceImages failed to execute.", [$error->getMessage()]);
-        } catch (ImagickException $error) {
-            $this->log->debug("Task ReduceImages failed to execute.", [$error->getMessage()]);
-        } catch (UsageException $error) {
-            $this->log->debug("Task ReduceImages failed to execute.", $error->getApiResult());
-        }
+        });
     }
 }

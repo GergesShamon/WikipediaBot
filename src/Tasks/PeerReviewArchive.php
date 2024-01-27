@@ -112,7 +112,10 @@ class PeerReviewArchive extends Task
                     break;
                 } else {
                     if (!$ArchivePage->getPageIdentifier()->getId() == 0) {
-                        $this->services->newRevisionSaver()->save(new Revision(new Content("{{ويكيبيديا:مراجعة الزملاء/تبويب}}\n{{أرشيف مراجعة الزملاء\n| 1 = ${num}\n}}"),$ArchivePage->getPageIdentifier()), new EditInfo("بوت: إنشاء صفحة أرشيف.", true,  true));
+                        $_num = $num + 1;
+                        $newArchivePage = $this->getPage("ويكيبيديا:مراجعة الزملاء/أرشيف ${_num}");
+                        $this->services->newRevisionSaver()->save(new Revision(new Content("{{ويكيبيديا:مراجعة الزملاء/تبويب}}\n{{أرشيف مراجعة الزملاء\n| 1 = ${_num}\n}}"),$newArchivePage->getPageIdentifier()), new EditInfo("بوت: أرشفة.", true,  true));
+                        
                     }
                 }
                 $num++;
@@ -127,19 +130,21 @@ class PeerReviewArchive extends Task
         
     }
     public function RUN(): void {
-        /*
-            So that there is no conflict with the task of FeaturedContent
-        $pages1 = array_merge($this->getPagesRejected(), $this->getPagesAcceptable());
-        */
-        $pages1 = $this->getPagesRejected();
-        $pages2 = $this->getPagesCurrent();
-        $pages = array_intersect($pages1, $pages2);
+        $this->running(function(){
+            /*
+                So that there is no conflict with the task of FeaturedContent
+            $pages1 = array_merge($this->getPagesRejected(), $this->getPagesAcceptable());
+            */
+            $pages1 = $this->getPagesRejected();
+            $pages2 = $this->getPagesCurrent();
+            $pages = array_intersect($pages1, $pages2);
+            
+            foreach ($pages as $page) {
+                $this->log->info("Task PeerReviewArchive: Work is done on a page ${page}.");
+                $this->Archive($page);
+            }
         
-        foreach ($pages as $page) {
-            $this->log->info("Task PeerReviewArchive: Work is done on a page ${page}.");
-            $this->Archive($page);
-        }
-        
+        });
     }
 }
 ?>

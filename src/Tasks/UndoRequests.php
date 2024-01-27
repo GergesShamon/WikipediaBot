@@ -108,13 +108,8 @@ class UndoRequests extends Task
         }
     }
     public function RUN(): void {
-        try {
+        $this->running(function(){
             $this->init();
-            $this->log->info("Task UndoRequests succeeded to execute.");
-        } catch (Exception $error) {
-            $this->log->debug("Task UndoRequests failed to execute.", [$error->getMessage()]);
-        } catch (UsageException $error) {
-            $this->log->debug("Task UndoRequests failed to execute.", $error->getApiResult());
-        }
+        });
     }
 }
