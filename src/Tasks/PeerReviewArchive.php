@@ -84,7 +84,7 @@ class PeerReviewArchive extends Task
         $status = $this->getReviewStatus($text);
         $_status = $status ? "تم" : "لم يتم";
         $template = $this->getTemplate_FormatReviewPage($tag);
-        $text = str_replace("</onlyinclude>ا", "", $text);
+        $text = str_replace("</onlyinclude>", "", $text);
         $text = preg_replace(
             "/\{\{تفاصيل مراجعة الزملاء(.*)\}\}$/s",
             "{{تفاصيل مراجعة الزملاء$1}}\n{{".$template."/ذيل التصويت}}\n</onlyinclude>",
