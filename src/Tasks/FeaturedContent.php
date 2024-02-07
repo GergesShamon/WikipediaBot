@@ -165,9 +165,15 @@ class FeaturedContent extends Task
         ]));
     }
     private function newCommunityMssages($name, $tag): void {
+        
         $page = $this->getPage("ويكيبيديا:رسائل للمجتمع");
         $text = $page->getRevisions()->getLatest()->getContent()->getData();
-        $revision = new Revision(new Content($text. "\n# مقالة '''[[".$name."]]''' مرشحة لنيل وسم ال".$tag."، يمكنم الإدلاء بآرائكم والتصويت بما ترونه مناسباً في '''[[ويكيبيديا:ترشيحات المقالات ال".$tag."/".$name."|هذه الصفحة]]'''. --~~~~"),$page->getPageIdentifier());
+        
+        if($tag == "قائمة"){
+            $revision = new Revision(new Content($text. "\n# '''[[".$name."]]''' مرشحة لنيل وسم قائمة مختارة، يمكنم الإدلاء بآرائكم والتصويت بما ترونه مناسباً في '''[[ويكيبيديا:ترشيحات القوائم المختارة/".$name."|هذه الصفحة]]'''. --~~~~"),$page->getPageIdentifier());
+        } else {
+            $revision = new Revision(new Content($text. "\n# مقالة '''[[".$name."]]''' مرشحة لنيل وسم ال".$tag."، يمكنم الإدلاء بآرائكم والتصويت بما ترونه مناسباً في '''[[ويكيبيديا:ترشيحات المقالات ال".$tag."/".$name."|هذه الصفحة]]'''. --~~~~"),$page->getPageIdentifier());
+        }
         $this->services->newRevisionSaver()->save($revision);
     }
     private function ReviewPageFormat($name) {

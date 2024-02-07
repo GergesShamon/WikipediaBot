@@ -123,7 +123,7 @@ class PeerReviewArchive extends Task
         }
     }
     public function Archive($name): void {
-        $this->running(function(){
+        
             $Page = $this->getPage("ويكيبيديا:مراجعة الزملاء/${name}");
             $TextPage = $Page->getRevisions()->getLatest()->getContent()->getData();
             $ReviewEndDate = $this->getEnd($TextPage);
@@ -144,7 +144,7 @@ class PeerReviewArchive extends Task
                         }
                         break;
                     } else {
-                        if (!$ArchivePage->getPageIdentifier()->getId() == 0) {
+                        if ($ArchivePage->getPageIdentifier()->getId() < 1) {
                             $_num = $num + 1;
                             $newArchivePage = $this->getPage("ويكيبيديا:مراجعة الزملاء/أرشيف ${_num}");
                             $this->services->newRevisionSaver()->save(new Revision(new Content("{{ويكيبيديا:مراجعة الزملاء/تبويب}}\n{{أرشيف مراجعة الزملاء\n| 1 = ${_num}\n}}"),$newArchivePage->getPageIdentifier()), new EditInfo("بوت: أرشفة.", true,  true));
@@ -155,7 +155,7 @@ class PeerReviewArchive extends Task
                 }
                 $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: أرشفة.", true,  true));
             }
-        });
+        
         
     }
     public function RUN(): void {
