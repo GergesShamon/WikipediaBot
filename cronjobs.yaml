@@ -1,25 +1,25 @@
 - name: always
   schedule: "*/5 * * * *"
-  command: sh ${HOME}/WikipediaBot/bin/always.sh
+  command: ${HOME}/WikipediaBot/bin/always.sh
   image: php8.2
   emails: onfailure
 - name: hour
   schedule: "0 */1 * * *"
-  command: sh ${HOME}/WikipediaBot/bin/hour.sh
+  command: ${HOME}/WikipediaBot/bin/hour.sh
   image: php8.2
   emails: onfailure
 - name: daily
   schedule: "0 1 * * *"
-  command: sh ${HOME}/WikipediaBot/bin/daily.sh
+  command: ${HOME}/WikipediaBot/bin/daily.sh
   image: php8.2
   emails: onfailure
 - name: weekly
   schedule: "0 0 * * 0"
-  command: sh ${HOME}/WikipediaBot/bin/weekly.sh
+  command: ${HOME}/WikipediaBot/bin/weekly.sh
   image: php8.2
   emails: onfailure
 - name: monthly
   schedule: "0 0 1 * *"
-  command: sh ${HOME}/WikipediaBot/bin/monthly.sh
+  command: ${HOME}/WikipediaBot/bin/monthly.sh
   image: php8.2
   emails: onfailure
