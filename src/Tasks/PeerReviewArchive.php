@@ -98,37 +98,14 @@ class PeerReviewArchive extends Task
         $revision = new Revision(new Content($text),$page->getPageIdentifier());
         $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: تنسيق الصفحة.", true,  true));
     }
-    private function DayPassed($ReviewEndDate) {
-        $months = array(
-            "يناير" => "January",
-            "فبراير" => "February",
-            "مارس" => "March",
-            "أبريل" => "April",
-            "مايو" => "May",
-            "يونيو" => "June",
-            "يوليو" => "July",
-            "أغسطس" => "August",
-            "سبتمبر" => "September",
-            "أكتوبر" => "October",
-            "نوفمبر" => "November",
-            "ديسمبر" => "December"
-        );
-        $targetDate = strtotime(str_replace(array_keys($months), array_values($months), $ReviewEndDate));
-        $currentDate = time();
-        $dayDifference = round(($currentDate - $targetDate) / (60 * 60 * 24));
-        if ($dayDifference >= 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
     public function Archive($name): void {
         
             $Page = $this->getPage("ويكيبيديا:مراجعة الزملاء/${name}");
             $TextPage = $Page->getRevisions()->getLatest()->getContent()->getData();
             $ReviewEndDate = $this->getEnd($TextPage);
             $Tag = $this->getTagType($TextPage);
-            if($this->DayPassed($ReviewEndDate)){
+            if(Util::calculateDaysFromToday($ReviewEndDate) >= 1){
                 $this->RemoveFromIRP($name);
                 $this->FormatReviewPage($Page, $Tag);
                 $num = 33;

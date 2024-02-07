@@ -14,16 +14,16 @@ class Util
         return $FileStream;
     }
     public static function getImageInfo(ActionApi $api, string $filename, string $iiprop = null): array | false {
-         $query = [
+        $query = [
             "format" => "json",
             "titles" => "File:${filename}",
             "prop" => "imageinfo"
         ];
-        
+
         if ($iiprop != null) {
             $query["iiprop"] = $iiprop;
         }
-        $data = $api->request(ActionRequest::simpleGet("query",$query));
+        $data = $api->request(ActionRequest::simpleGet("query", $query));
         if (isset($data["query"]["pages"]) && !empty($data["query"]["pages"])) {
             $firstPageKey = array_key_first($data["query"]["pages"]);
             $page = $data["query"]["pages"][$firstPageKey];
@@ -37,27 +37,49 @@ class Util
         return false;
     }
     public static function getYearMonth(): string {
-    $months = array(
-    "January" => "يناير",
-    "February" => "فبراير",
-    "March" => "مارس",
-    "April" => "أبريل",
-    "May" => "مايو",
-    "June" => "يونيو",
-    "July" => "يوليو",
-    "August" => "أغسطس",
-    "September" => "سبتمبر",
-    "October" => "أكتوبر",
-    "November" => "نوفمبر",
-    "December" => "ديسمبر"
-    );
-    return $months[strftime("%B")] . " " . strftime("%Y");
-  }
-    public static function PregReplace($Text ,$Array = array()): string {
+        $months = array(
+            "January" => "يناير",
+            "February" => "فبراير",
+            "March" => "مارس",
+            "April" => "أبريل",
+            "May" => "مايو",
+            "June" => "يونيو",
+            "July" => "يوليو",
+            "August" => "أغسطس",
+            "September" => "سبتمبر",
+            "October" => "أكتوبر",
+            "November" => "نوفمبر",
+            "December" => "ديسمبر"
+        );
+        return $months[strftime("%B")] . " " . strftime("%Y");
+    }
+    public static function PregReplace($Text, $Array = array()): string {
         foreach ($Array as $Row) {
-          $Text = preg_replace($Row[0] ,$Row[1], $Text);
+            $Text = preg_replace($Row[0], $Row[1], $Text);
         }
-    return $Text;
+        return $Text;
+    }
+    public static function calculateDaysFromToday($targetDate) {
+        $months = array(
+            "يناير" => "January",
+            "فبراير" => "February",
+            "مارس" => "March",
+            "أبريل" => "April",
+            "مايو" => "May",
+            "يونيو" => "June",
+            "يوليو" => "July",
+            "أغسطس" => "August",
+            "سبتمبر" => "September",
+            "أكتوبر" => "October",
+            "نوفمبر" => "November",
+            "ديسمبر" => "December"
+        );
+        $today = new DateTime();
+        $targetDateTime = new DateTime(str_replace(array_keys($months), array_values($months), $targetDate));
+
+        $interval = $today->diff($targetDateTime);
+
+        return $interval->d;
     }
 
 }

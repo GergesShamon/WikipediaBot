@@ -231,30 +231,7 @@ class FeaturedContent extends Task
                 )),$page->getPageIdentifier());
         $this->services->newRevisionSaver()->save($revision, new EditInfo("بوت: تغير قالب مراجعة الزملاء إلى ترشيح مقالة", true,  true));
     }
-    private function TwoDaysPassed($ReviewEndDate) {
-        $months = array(
-            "يناير" => "January",
-            "فبراير" => "February",
-            "مارس" => "March",
-            "أبريل" => "April",
-            "مايو" => "May",
-            "يونيو" => "June",
-            "يوليو" => "July",
-            "أغسطس" => "August",
-            "سبتمبر" => "September",
-            "أكتوبر" => "October",
-            "نوفمبر" => "November",
-            "ديسمبر" => "December"
-        );
-        $targetDate = strtotime(str_replace(array_keys($months), array_values($months), $ReviewEndDate));
-        $currentDate = time();
-        $dayDifference = round(($currentDate - $targetDate) / (60 * 60 * 24));
-        if ($dayDifference >= 2) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
     private function init() {
         $PagesArray = $this->getPages();
         foreach ($PagesArray as $name) {
@@ -272,7 +249,7 @@ class FeaturedContent extends Task
                 $Comment = $this->getComment($TextPage);
                 $Tag = $this->getTagType($TextPage);
                 $ReviewEndDate = $this->getEnd($TextPage);
-                if($this->TwoDaysPassed($ReviewEndDate)){
+                if(Util::calculateDaysFromToday($ReviewEndDate) >= 2){
                 $TemplateTag = $this->getTemplateTag($Tag);
                 $this->CreateVotePage($_data, $NamePage, $Comment, $TemplateTag, $Tag);
                 $this->newCommunityMssages($NamePage, $Tag);
