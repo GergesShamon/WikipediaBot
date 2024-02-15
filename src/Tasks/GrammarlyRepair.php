@@ -27,7 +27,10 @@ class GrammarlyRepair extends Task
         return $str;
     }
     private function Repair(string $text): string {
+        /* It no longer uses a local file, but rather a Wikipedia file 
         $replacements = json_decode(Util::ReadFile(FOLDER_JSON . "/replacements.json"));
+        */
+        $replacements = json_decode($this->readPage("MediaWiki:Ar gram errors.json"));
         $str = $text;
         foreach ($replacements as $pattern => $replacement) {
             $pattern = "/".$pattern."((?![^\{]*\})(?![^\[]*\])(?![^<]*<\/.*>))/u";
@@ -44,7 +47,7 @@ class GrammarlyRepair extends Task
         $reformedText = $this->Repair($text);
         if ($text != $reformedText) {
             $content = new Content($reformedText);
-            $editInfo = new EditInfo("بوت: تدقيق لغوي (تجربة)", true,  true);
+            $editInfo = new EditInfo("بوت: تدقيق لغوي", true,  true);
             $revision = new Revision($content, $page->getPageIdentifier());
             $this->services->newRevisionSaver()->save($revision, $editInfo);
             $this->log->info("grammatical errors were corrected on this page ${name}.");

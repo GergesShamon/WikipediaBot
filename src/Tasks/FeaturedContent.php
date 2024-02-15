@@ -12,9 +12,6 @@ use Bot\IO\Util;
 class FeaturedContent extends Task
 {
     
-    private function getPage($name): Page {
-        return $this->services->newPageGetter()->getFromTitle($name);
-    }
     private function getTagType($text): string {
         if (preg_match("/نوع الترشيح =(.*)/u", $text, $matches)) {
             $this->log->info("FeaturedContent: Tag type " .trim($matches[1]));

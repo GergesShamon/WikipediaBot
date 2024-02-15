@@ -34,9 +34,6 @@ class PeerReviewArchive extends Task
         preg_match_all("/\{\{متمز\|(.*)\}\}/U", $text, $matches);
         return $matches[1];
     }
-    private function getPage($name): Page {
-        return $this->services->newPageGetter()->getFromTitle($name);
-    }
     private function getTagType($text): string {
         if (preg_match("/نوع الترشيح =(.*)/u", $text, $matches)) {
             return trim($matches[1]);
