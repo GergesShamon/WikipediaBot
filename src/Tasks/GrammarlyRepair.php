@@ -33,7 +33,7 @@ class GrammarlyRepair extends Task
         $replacements = json_decode($this->readPage("MediaWiki:Ar gram errors.json"));
         $str = $text;
         foreach ($replacements as $pattern => $replacement) {
-            $pattern = "/".$pattern."((?![^\{]*\p{M})(?![^\[]*\p{M})(?![^<]*<\/.*>))/u";
+            $pattern = "/".$pattern."((?![^\{]*\})(?![^\[]*\])(?![^<]*<\/.*>)(?![\p{M}]))/u";
             if (preg_match_all($pattern, $str, $matches)) {
                 $str = $this->SeparatorRepair($str);
                 $str = preg_replace($pattern, $replacement, $str);
