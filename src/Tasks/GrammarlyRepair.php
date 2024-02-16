@@ -15,10 +15,10 @@ class GrammarlyRepair extends Task
     
     private function SeparatorRepair(string $text): string {
         $replacements = array(
-            "/([\p{Arabic}+|\]|\}|\>]),([\p{Arabic}+|\[|\{|\<])/" => "$1، $2",
-            "/([\p{Arabic}+|\]|\}|\>])،([\p{Arabic}+|\[|\{|\<])/" => "$1، $2",
-            "/([\p{Arabic}+|\]|\}|\>]) ، ([\p{Arabic}+|\[|\{|\<])/" => "$1، $2",
-            "/([\p{Arabic}+|\]|\}|\>]) ،([\p{Arabic}+|\[|\{|\<])/" => "$1، $2"
+            "/([\p{Arabic}+|\]|\}]),([\p{Arabic}+|\[|\{])/" => "$1، $2",
+            "/([\p{Arabic}+|\]|\}])،([\p{Arabic}+|\[|\{])/" => "$1، $2",
+            "/([\p{Arabic}+|\]|\}]) ، ([\p{Arabic}+|\[|\{])/" => "$1، $2",
+            "/([\p{Arabic}+|\]|\}]) ،([\p{Arabic}+|\[|\{])/" => "$1، $2"
         );
         $str = $text;
         foreach ($replacements as $pattern => $replacement) {
