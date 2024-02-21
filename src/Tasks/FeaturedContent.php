@@ -151,6 +151,7 @@ class FeaturedContent extends Task
                 ["/<\/includeonly>/", ""],
                 ["/{{{عنوان}}}/", $name],
                 ["/{{{تعليق}}}/", $comment],
+                ["/{{{وضع المراجعة}}}/", "1"],
             ],
         );
         $revision = new Revision(new Content($TextPage), $VotePage->getPageIdentifier());
